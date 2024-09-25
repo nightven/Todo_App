@@ -1,0 +1,29 @@
+/** @jsxImportSource @emotion/react */
+import React, { useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { verifyPageContainer } from './verify.page.container.style';
+import Loader from '~shared/components/loader/loader.component';
+import { ROUTER_KEYS } from '~shared/keys';
+import useUserStore from '~store/user.store';
+
+const VerifyPageContainer: React.FC = () => {
+	const { verifyEmail, loading } = useUserStore();
+	const [searchParams] = useSearchParams();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const verificationToken = searchParams.get('token');
+
+		verifyEmail(verificationToken);
+
+		navigate(ROUTER_KEYS.LOGIN);
+	}, []);
+
+	return (
+		<div css={verifyPageContainer}>
+			{loading && <Loader width="60px" height="60px" />}
+		</div>
+	);
+};
+
+export default VerifyPageContainer;
