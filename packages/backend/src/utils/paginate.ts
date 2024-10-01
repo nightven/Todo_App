@@ -23,6 +23,7 @@ export interface IPaginateResult {
 		skip: number;
 		take: number;
 	};
+	totalPages: number;
 }
 
 export const paginate = (count: number, options: IOptions): IPaginateResult => {
@@ -38,6 +39,8 @@ export const paginate = (count: number, options: IOptions): IPaginateResult => {
 		throw Helpers.httpErrors(404, 'Page not found!');
 	}
 
+	const totalPages = Math.ceil(count / limit);
+
 	if (page > 1) {
 		results.prev = { page: page - 1, limit };
 	}
@@ -50,5 +53,6 @@ export const paginate = (count: number, options: IOptions): IPaginateResult => {
 	return {
 		results,
 		paginateOptions: { skip, take: limit },
+		totalPages,
 	};
 };
