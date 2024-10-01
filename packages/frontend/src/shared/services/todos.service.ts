@@ -13,16 +13,25 @@ class TodoService extends HttpService {
 	}
 
 	async getTodos(
-		searchQuery: string,
-	): Promise<{ data: TodoType[]; pagination: Pagination }> {
-		const query = searchQuery
-			? `?title=${encodeURIComponent(searchQuery)}`
-			: '';
+		title: string,
+		page: number,
+	): Promise<{
+		data: TodoType[];
+		pagination: Pagination;
+		totalPages: number;
+	}> {
+		const params = new URLSearchParams();
+		if (title) params.set('title', encodeURIComponent(title));
+		params.set('page', String(page));
 
 		const res = await this.get<TodoListResponse>({
-			url: `todos/all${query}`,
+			url: `todos/all?${params.toString()}`,
 		});
-		return { data: res.data.data, pagination: res.data.pagination };
+		return {
+			data: res.data.data,
+			pagination: res.data.pagination,
+			totalPages: res.data.totalPages,
+		};
 	}
 
 	async getTodoById(id: string): Promise<TodoType> {

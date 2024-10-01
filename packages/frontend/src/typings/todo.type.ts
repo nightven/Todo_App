@@ -32,6 +32,7 @@ export type TodoListResponse = {
 	message: string;
 	data: TodoType[];
 	pagination: Pagination;
+	totalPages: number;
 };
 
 export type IResults = {

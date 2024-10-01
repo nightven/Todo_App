@@ -9,7 +9,9 @@ export interface ITodosStore {
 	pagination: IResults;
 	hasMore: boolean;
 	page: number;
+	totalPages: number;
 	setPage: (page: number) => void;
+	setTotalPages: (totalPage: number) => void;
 	setHasMore: (hasMore: boolean) => void;
 	setTodos: (todos: TodoType[] | null) => void;
 	setViewedTodo: (todo: TodoType | null) => void;
@@ -25,10 +27,15 @@ export const useTodosStore = create<ITodosStore>((set) => ({
 	error: null,
 	pagination: null,
 	page: 1,
+	totalPages: 1,
 	hasMore: false,
 
 	setPage: (page: number): void => {
 		set((state) => ({ ...state, page }));
+	},
+
+	setTotalPages: (totalPages: number): void => {
+		set((state) => ({ ...state, totalPages }));
 	},
 
 	setHasMore: (hasMore: boolean): void => {

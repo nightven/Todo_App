@@ -7,7 +7,7 @@ interface UseTodosHookReturn {
 	updateTodo: (updatedToDo: TodoType, id: number) => Promise<void>;
 	createTodo: (todo: TodoType) => Promise<void>;
 	getViewTodo: (id: string) => Promise<void>;
-	getTodos: (searchQuery: string) => Promise<void>;
+	getTodos: (searchQuery: string, page: number) => Promise<void>;
 	deleteTodo: (id: number) => Promise<void>;
 }
 export const useTodosHook = (): UseTodosHookReturn => {
@@ -18,19 +18,21 @@ export const useTodosHook = (): UseTodosHookReturn => {
 		setTodos,
 		setLoading,
 		setPagination,
+		setTotalPages,
 		setError,
 		setViewedTodo,
 	} = useTodosStore();
 
-	const getTodos = async (searchQuery: string): Promise<void> => {
+	const getTodos = async (title: string, page: number): Promise<void> => {
 		setLoading(true);
 
 		try {
-			const { data, pagination } =
-				await todosService.getTodos(searchQuery);
+			const { data, pagination, totalPages } =
+				await todosService.getTodos(title, page);
 
 			setTodos(data);
 			setPagination(pagination);
+			setTotalPages(totalPages);
 			setHasMore(pagination.next ? true : false);
 			setError(null);
 			setLoading(false);
@@ -84,7 +86,6 @@ export const useTodosHook = (): UseTodosHookReturn => {
 		try {
 			await todosService.addTodo(todo);
 
-			setTodos([...todos, todo]);
 			setError(null);
 			setLoading(false);
 			toast.success('Todo has been created successfully!');

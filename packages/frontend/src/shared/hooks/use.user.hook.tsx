@@ -38,8 +38,10 @@ export const useUserHook = (): UseUserHookReturn => {
 	): Promise<void> => {
 		setLoading(true);
 		try {
-			const { message } = await UserService.register(credential);
-			toast.success(message);
+			await UserService.register(credential);
+			toast.success(
+				'A verification email has been sent, please check your email',
+			);
 			setLoading(false);
 			setError(null);
 		} catch (error) {
