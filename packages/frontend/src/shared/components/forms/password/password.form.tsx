@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PassFormData, PassFormProps } from '~typings/forms.type';
@@ -5,6 +6,7 @@ import PasswordInput from '../inputs/password.form.imput';
 import Button from '~shared/components/button/button.component';
 import { useUserHook } from '~shared/hooks/use.user.hook';
 import { ROUTER_KEYS } from '~shared/keys';
+import { buttonWrapper } from './pasword.form.style';
 
 const PasswordForm: React.FC<PassFormProps> = ({
 	handleSubmit,
@@ -19,7 +21,6 @@ const PasswordForm: React.FC<PassFormProps> = ({
 	const onSubmit = async (data: PassFormData): Promise<void> => {
 		if (type === 'reset') {
 			await resetPassword(data);
-
 			navigate(ROUTER_KEYS.LOGIN);
 		}
 		if (type === 'update') {
@@ -62,7 +63,9 @@ const PasswordForm: React.FC<PassFormProps> = ({
 					type="password"
 				/>
 			)}
-			<Button type="submit" text={textSubmitButton} />
+			<div css={buttonWrapper}>
+				<Button type="submit" text={textSubmitButton} />
+			</div>
 		</form>
 	);
 };

@@ -137,7 +137,9 @@ export const useUserHook = (): UseUserHookReturn => {
 		} catch (error) {
 			setError(error.message);
 			setLoading(false);
-			toast.error('Failed to set password');
+			toast.error(
+				`Failed to reset password. ${error.response.status === 401 ? 'You are not authorized' : ''}`,
+			);
 		}
 	};
 
