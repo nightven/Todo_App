@@ -35,7 +35,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
 	const onSubmit = async (data: AuthFormData): Promise<void> => {
 		if (type === 'register') {
 			await registerUser(data as RegisterUserType).then(() =>
-				navigate(ROUTER_KEYS.LOGIN),
+				navigate(ROUTER_KEYS.HOME),
 			);
 		} else if (type === 'login') {
 			await login(data as LoginUserType).then(() =>

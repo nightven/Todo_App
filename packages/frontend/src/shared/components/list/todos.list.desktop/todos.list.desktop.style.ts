@@ -10,7 +10,7 @@ export const desktopListWrapper = css`
 	border: solid 1px white;
 	border-radius: 12px;
 	overflow-y: scroll;
-	max-height: 600px;
+	max-height: 700px;
 	background: ${theme.colors.background};
 	color: ${theme.colors.text};
 

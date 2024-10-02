@@ -22,19 +22,20 @@ import TodoForm from '~shared/components/forms/todos/todos.form';
 import { useTodosHook } from '~shared/hooks/use.todos.hook';
 import { useUserHook } from '~shared/hooks/use.user.hook';
 import SearchInput from '~shared/components/forms/inputs/search.input';
-import { useSearchParams } from 'react-router-dom';
 import { CreateTodoFormData } from '~typings/forms.type';
 import { filterTodos } from '~/utils/filter.show.todos';
+import Pagination from '~shared/components/pagination/pagination';
+import { useQueryParams } from '~shared/hooks/use.query.params';
 
 const HomePageContainer: React.FC = () => {
-	const { todos, loading } = useTodosStore();
+	const { todos, loading, totalPages } = useTodosStore();
 	const { createTodo, getTodos } = useTodosHook();
 	const { getProfile } = useUserHook();
 	const [isOpen, setIsOpen] = useState(false);
 	const [activeFilter, setActiveFilter] = useState<FilterType>('All');
-	const [searchParams, setSearchParams] = useSearchParams();
+	const { searchParams, updateQueryParams } = useQueryParams();
 	const [searchTerm, setSearchTerm] = useState('');
-	const { isTablet, isMobile } = useCustomTheme();
+	const { isTablet, isMobile, isDesktop } = useCustomTheme();
 
 	const debouncedSearch = useCallback(
 		debounce((term: string) => {
@@ -52,26 +53,19 @@ const HomePageContainer: React.FC = () => {
 		debouncedSearch(value);
 	};
 
-	const updateQueryParams = (params: { search?: string }): void => {
-		const newParams = new URLSearchParams(searchParams);
-		if (params.search) {
-			newParams.set('search', params.search);
-		}
-		setSearchParams(newParams);
-	};
-
 	useEffect(() => {
 		getProfile();
 	}, []);
 
 	useEffect(() => {
 		const savedSearch = searchParams.get('search') || '';
+		const page = parseInt(searchParams.get('page') || '1', 10);
 
 		if (savedSearch) {
 			setSearchTerm(savedSearch);
 		}
 
-		getTodos(searchTerm);
+		getTodos(searchTerm, page);
 	}, [searchParams]);
 
 	const openModal = (): void => setIsOpen(true);
@@ -84,8 +78,15 @@ const HomePageContainer: React.FC = () => {
 	const onSubmitTodoForm: SubmitHandler<CreateTodoFormData> = (
 		data,
 	): void => {
+		const page = parseInt(searchParams.get('page') || '1', 10);
+
 		createTodo(data);
+		getTodos(searchTerm, page);
 		setIsOpen(false);
+	};
+
+	const setCurrentPage = (page: number): void => {
+		updateQueryParams({ page });
 	};
 
 	return (
@@ -143,6 +144,18 @@ const HomePageContainer: React.FC = () => {
 			) : (
 				<TodosList todos={filterTodos(todos, activeFilter)} />
 			)}
+
+			{isTablet ||
+				(isDesktop && (
+					<Pagination
+						totalPages={totalPages}
+						currentPage={parseInt(
+							searchParams.get('page') || '1',
+							10,
+						)}
+						onPageChange={setCurrentPage}
+					/>
+				))}
 
 			<Modal isOpen={isOpen} onClose={closeModal}>
 				<TodoForm onSubmit={onSubmitTodoForm} />

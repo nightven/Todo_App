@@ -7,12 +7,9 @@ const prisma = new PrismaClient();
 export default class TodoService {
 	async findAllByAuthorIdAndQuery(
 		authorId: number,
-		query: { title?: string; page?: string; limit?: string },
+		paginateOptions: { title?: string; skip?: number; take?: number },
 	): Promise<TodoType[]> {
-		const { title, page = '1', limit = '10' } = query;
-
-		const take = parseInt(limit);
-		const skip = (parseInt(page) - 1) * take;
+		const { title, skip = 0, take = 10 } = paginateOptions;
 
 		const where: Prisma.TodoWhereInput = {
 			authorId,

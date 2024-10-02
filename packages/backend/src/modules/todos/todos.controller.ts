@@ -44,7 +44,10 @@ export class TodoController {
 
 		const count = await this.todoService.countTodosByAuthorId(id, title);
 
-		const { results, paginateOptions } = paginate(count, { page, limit });
+		const { results, paginateOptions, totalPages } = paginate(count, {
+			page,
+			limit,
+		});
 
 		const todos = await this.todoService.findAllByAuthorIdAndQuery(id, {
 			title,
@@ -64,6 +67,7 @@ export class TodoController {
 			message: 'Success',
 			data: todos,
 			pagination: results,
+			totalPages,
 		});
 	}
 
