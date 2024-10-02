@@ -140,7 +140,7 @@ const HomePageContainer: React.FC = () => {
 			</div>
 
 			{loading ? (
-				<Loader height="60px" width="60px" />
+				<Loader size="large" />
 			) : (
 				<TodosList todos={filterTodos(todos, activeFilter)} />
 			)}

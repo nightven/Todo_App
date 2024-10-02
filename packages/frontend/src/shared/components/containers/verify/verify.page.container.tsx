@@ -23,7 +23,7 @@ const VerifyPageContainer: React.FC = () => {
 
 	return (
 		<div css={verifyPageContainer}>
-			{loading && <Loader width="60px" height="60px" />}
+			{loading && <Loader size="large" />}
 		</div>
 	);
 };

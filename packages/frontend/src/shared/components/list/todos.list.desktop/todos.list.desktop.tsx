@@ -93,7 +93,7 @@ const DesktopTodosList: React.FC<TodoListProps> = ({ todos }) => {
 								extraButtonStyles={iconButtonStyles}
 							/>
 							{loading ? (
-								<Loader height="30px" width="30px" />
+								<Loader size="small" />
 							) : (
 								<TodosToggle
 									checked={completedTodos[todo.id] || false}

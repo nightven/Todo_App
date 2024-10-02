@@ -5,11 +5,19 @@ import { loaderWrapper } from './loader.component.style';
 import { colors } from '~shared/styles';
 
 type LoaderProps = {
-	height: string;
-	width: string;
+	size: 'large' | 'medium' | 'small';
 };
 
-const Loader: React.FunctionComponent<LoaderProps> = ({ height, width }) => {
+const Loader: React.FunctionComponent<LoaderProps> = ({ size = 'medium' }) => {
+	const sizes = {
+		large: '64px',
+		medium: '44px',
+		small: '34px',
+	};
+
+	const height = sizes[size];
+	const width = sizes[size];
+
 	return (
 		<div css={loaderWrapper}>
 			<Hourglass

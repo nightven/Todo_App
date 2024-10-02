@@ -46,17 +46,8 @@
 			"~pages/*": [
 				"src/pages/*"
 			],
-			"~auth/*": [
-				"src/pages/auth/*"
-			],
 			"~utils/*": [
 				"src/utils/*"
-			],
-			"~fonts/*": [
-				"src/assets/fonts/*"
-			],
-			"~hooks/*": [
-				"src/shared/hooks/*"
 			]
 		}
 	},
