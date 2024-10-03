@@ -30,8 +30,9 @@ const Header: React.FunctionComponent = () => {
 				<a href={ROUTER_KEYS.HOME}>
 					<img src={Logo} alt="logo" className="logo" />
 				</a>
-
-				<h1 className="title">Todo Planers</h1>
+				<a href={ROUTER_KEYS.HOME}>
+					<h1 className="title">Todo Planers</h1>
+				</a>
 			</div>
 			<div className="header-buttons">
 				<Button

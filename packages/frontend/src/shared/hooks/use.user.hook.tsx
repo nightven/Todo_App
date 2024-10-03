@@ -47,8 +47,12 @@ export const useUserHook = (): UseUserHookReturn => {
 			setError(null);
 		} catch (error) {
 			setError(error.message);
+			if (error.response.status === 409) {
+				toast.error('User already exist');
+			} else {
+				toast.error('Failed to fetch user');
+			}
 			setLoading(false);
-			toast.error('Failed to fetch user');
 		}
 	};
 
@@ -128,6 +132,7 @@ export const useUserHook = (): UseUserHookReturn => {
 		} catch (error) {
 			setError(error.message);
 			setLoading(false);
+			toast.error('Failed to change password, invalid credential');
 		}
 	};
 

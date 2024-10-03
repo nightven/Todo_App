@@ -8,6 +8,9 @@ export const sidebarWrapper = (isMobile: boolean): SerializedStyles => css`
 	padding: 8px;
 	border: 1px solid ${theme.colors.light};
 	border-radius: ${theme.borders.radiusLarge};
+	font-family: ${theme.typography.fontFamily};
+	font-weight: ${theme.typography.fontWeight.normal};
+	line-height: ${theme.typography.lineHeight};
 `;
 
 export const menuItem = css`

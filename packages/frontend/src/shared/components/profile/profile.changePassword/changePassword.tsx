@@ -1,34 +1,29 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import PasswordForm from '~shared/components/forms/password/password.form';
-import { UseFormRegister, FieldErrors, SubmitHandler } from 'react-hook-form';
-import { FormData, PassFormData } from '~typings/forms.type';
-import { changePasswordContainer } from './changePassword.style';
+import { changePasswordContainer, title } from './changePassword.style';
+import FormComponent from '~shared/components/forms/form/form';
+import { ChangePassType } from '~typings/user.type';
+import { z } from 'zod';
 
-type ChangePasswordType = {
-	handleSubmit: (
-		callback: SubmitHandler<FormData>,
-	) => (e?: React.BaseSyntheticEvent) => void;
-	errors: FieldErrors<PassFormData>;
-	register: UseFormRegister<PassFormData>;
+type ChangePasswordProps = {
 	isMobile: boolean;
+	schema: z.ZodSchema;
 };
 
-const ChangePassword: React.FC<ChangePasswordType> = ({
-	handleSubmit,
-	errors,
-	register,
+const ChangePassword: React.FC<ChangePasswordProps> = ({
 	isMobile,
+	schema,
 }) => {
 	return (
-		<div css={changePasswordContainer(isMobile)}>
-			<PasswordForm
-				handleSubmit={handleSubmit}
-				errors={errors}
-				register={register}
-				textSubmitButton="Save password"
-				type="update"
-			/>
+		<div>
+			<h3 css={title}>Change password</h3>
+			<div css={changePasswordContainer(isMobile)}>
+				<FormComponent<ChangePassType>
+					type="changePassword"
+					textSubmitButton="Change password"
+					schema={schema}
+				/>
+			</div>
 		</div>
 	);
 };

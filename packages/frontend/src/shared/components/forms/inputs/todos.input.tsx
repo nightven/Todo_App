@@ -2,7 +2,7 @@
 import React from 'react';
 import { FormGroup } from '@blueprintjs/core';
 import { TodoInputProps } from '~typings/forms.type';
-import { todosInputStyle } from './inpust.style';
+import { labelStyle, todosInputStyle } from './inpust.style';
 
 const TodoInput = React.forwardRef<HTMLInputElement, TodoInputProps>(
 	(
@@ -24,6 +24,7 @@ const TodoInput = React.forwardRef<HTMLInputElement, TodoInputProps>(
 				label={label}
 				labelFor={labelFor}
 				helperText={helperText}
+				css={labelStyle}
 			>
 				<input
 					id={labelFor}

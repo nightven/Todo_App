@@ -15,9 +15,11 @@ import {
 	ResetPassword,
 } from '~typings/user.type';
 import { formStyle } from './form.style';
+import { zodResolver } from '@hookform/resolvers/zod';
+import z from 'zod';
 
 type FormPropsType<T extends Record<string, unknown>> = {
-	defaultValues: DefaultValues<T>;
+	defaultValues?: DefaultValues<T>;
 	textSubmitButton?: string;
 	type:
 		| 'login'
@@ -27,6 +29,7 @@ type FormPropsType<T extends Record<string, unknown>> = {
 		| 'changePassword'
 		| 'changeName';
 	onBack?: () => void;
+	schema: z.ZodSchema;
 };
 
 type FormType = {
@@ -43,6 +46,7 @@ const FormComponent = <T extends FormType>({
 	textSubmitButton = 'Submit',
 	type,
 	onBack,
+	schema,
 }: FormPropsType<T>): JSX.Element => {
 	const {
 		register,
@@ -50,6 +54,8 @@ const FormComponent = <T extends FormType>({
 		formState: { errors },
 	} = useForm<T>({
 		defaultValues,
+		resolver: zodResolver(schema),
+		mode: 'onSubmit',
 	});
 
 	const {
@@ -203,7 +209,7 @@ const FormComponent = <T extends FormType>({
 			);
 		}
 
-		if (type === 'change') {
+		if (type === 'changePassword') {
 			return (
 				<>
 					<Input<T>
@@ -251,10 +257,10 @@ const FormComponent = <T extends FormType>({
 		<form onSubmit={handleSubmit(onSubmit)} css={formStyle}>
 			{renderInputs(type)}
 			<div className="buttonWrapper">
-				<Button type="submit" text={textSubmitButton} />
 				{onBack && (
 					<Button type="button" text="Back" onClick={onBack} />
 				)}
+				<Button type="submit" text={textSubmitButton} />
 			</div>
 		</form>
 	);

@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { container } from '~shared/styles';
 import { Card, Elevation } from '@blueprintjs/core';
 import { useUserStore } from '~store/user.store';
-import { PassFormData } from '~typings/forms.type';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { changePasswordSchema } from '~shared/services/schemas/user.schema';
+import {
+	changeNameSchema,
+	changePasswordSchema,
+} from '~shared/services/schemas/user.schema';
 import {
 	cardWrapper,
 	contentWrapper,
@@ -25,14 +25,7 @@ const ProfilePageContainer: React.FC = () => {
 	const [activeSection, setActiveSection] = useState<
 		'info' | 'editName' | 'changePassword'
 	>('info');
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<PassFormData>({
-		resolver: zodResolver(changePasswordSchema),
-		mode: 'onSubmit',
-	});
+
 	const { isMobile } = useCustomMediaQuery();
 
 	useEffect(() => {
@@ -49,14 +42,18 @@ const ProfilePageContainer: React.FC = () => {
 		if (activeSection === 'info')
 			return <UserInfo name={user?.name} email={user?.email} />;
 		if (activeSection === 'editName')
-			return <ChangeName name={user?.name} />;
+			return (
+				<ChangeName
+					name={user?.name}
+					isMobile={isMobile}
+					schema={changeNameSchema}
+				/>
+			);
 		if (activeSection === 'changePassword')
 			return (
 				<ChangePassword
-					handleSubmit={handleSubmit}
-					errors={errors}
-					register={register}
 					isMobile={isMobile}
+					schema={changePasswordSchema}
 				/>
 			);
 		return null;

@@ -2,14 +2,16 @@
 import React from 'react';
 import FormComponent from '~shared/components/forms/form/form';
 import { formWrapper, title } from './changeName.style';
-import { useCustomMediaQuery } from '~shared/hooks/use.custom.mediaquery';
+import { ChangeNameType } from '~typings/user.type';
+import z from 'zod';
 
-type ChangeNameType = {
+type ChangeNameProps = {
 	name: string;
+	isMobile: boolean;
+	schema: z.ZodSchema;
 };
 
-const ChangeName: React.FC<ChangeNameType> = ({ name }) => {
-	const { isMobile } = useCustomMediaQuery();
+const ChangeName: React.FC<ChangeNameProps> = ({ name, isMobile, schema }) => {
 	return (
 		<div>
 			<h3 css={title}>Edit Name</h3>
@@ -18,6 +20,7 @@ const ChangeName: React.FC<ChangeNameType> = ({ name }) => {
 					defaultValues={{ name }}
 					textSubmitButton="Submit"
 					type="changeName"
+					schema={schema}
 				/>
 			</div>
 		</div>

@@ -10,7 +10,7 @@ type UserInfoProps = {
 const UserInfo: React.FC<UserInfoProps> = ({ name, email }) => {
 	return (
 		<div css={userInfoWrapper}>
-			<h2>User profile</h2>
+			<h3 className="title">User profile</h3>
 			<p>
 				Name: <span>{name}</span>
 			</p>

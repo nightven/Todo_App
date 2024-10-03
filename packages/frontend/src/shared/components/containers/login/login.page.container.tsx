@@ -3,57 +3,45 @@ import React, { useState } from 'react';
 import { Card, Elevation } from '@blueprintjs/core';
 import { authContainer } from './login.page.conteiner.style';
 import Button from '~shared/components/button/button.component';
-import { useForm } from 'react-hook-form';
-import AuthForm from '~shared/components/forms/auth/auth.form';
-import { FormData, FormState } from '~typings/forms.type';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { getSchema } from '~/utils/get.form.schema';
+import FormComponent from '~shared/components/forms/form/form';
+import {
+	forgotPasswordSchema,
+	loginSchema,
+	registrationSchema,
+} from '~shared/services/schemas/user.schema';
+import { LoginUserType, ResetEmail } from '~typings/user.type';
+import { FormState } from '~typings/forms.type';
 
 const LoginContainer: React.FC = () => {
 	const [formState, setFormState] = useState<FormState>('initial');
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<FormData>({
-		resolver: zodResolver(getSchema(formState)),
-		mode: 'onSubmit',
-	});
 
 	const renderForm = (): React.ReactNode => {
 		switch (formState) {
 			case 'login':
 				return (
-					<AuthForm
-						handleSubmit={handleSubmit}
-						register={register}
-						errors={errors}
-						textSubmitButton="Login"
-						type="login"
+					<FormComponent<LoginUserType>
 						onBack={() => setFormState('initial')}
+						type="login"
+						schema={loginSchema}
+						textSubmitButton="Login"
 					/>
 				);
 			case 'register':
 				return (
-					<AuthForm
-						handleSubmit={handleSubmit}
-						register={register}
-						errors={errors}
-						textSubmitButton="Register now"
-						type="register"
+					<FormComponent<LoginUserType>
 						onBack={() => setFormState('initial')}
+						type="register"
+						schema={registrationSchema}
+						textSubmitButton="Register now"
 					/>
 				);
 			case 'forgot':
 				return (
-					<AuthForm
-						handleSubmit={handleSubmit}
-						register={register}
-						errors={errors}
-						textSubmitButton="Send reset  email"
-						type="forgot"
+					<FormComponent<ResetEmail>
 						onBack={() => setFormState('initial')}
+						type="forgot"
+						schema={forgotPasswordSchema}
+						textSubmitButton="Send reset email"
 					/>
 				);
 			default:

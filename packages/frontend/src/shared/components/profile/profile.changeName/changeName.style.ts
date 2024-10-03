@@ -12,7 +12,7 @@ export const title = css`
 export const formWrapper = (isMobile: boolean): SerializedStyles => css`
 	margin: 0 auto;
 	margin-top: ${isMobile ? '16px' : '40px'};
-	width: ${isMobile ? '100%' : '400px'};
+	max-width: ${isMobile ? '100%' : '400px'};
 	border: 1px solid white;
 	padding: 16px;
 	border-radius: 16px;

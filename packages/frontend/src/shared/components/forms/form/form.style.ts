@@ -8,7 +8,12 @@ export const formStyle = css`
 
 	.buttonWrapper {
 		display: flex;
+		flex-direction: row;
 		justify-content: end;
 		gap: 8px;
+	}
+
+	.bp5-form-helper-text {
+		color: ${theme.colors.danger};
 	}
 `;

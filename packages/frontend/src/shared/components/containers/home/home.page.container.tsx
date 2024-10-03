@@ -80,8 +80,8 @@ const HomePageContainer: React.FC = () => {
 	): void => {
 		const page = parseInt(searchParams.get('page') || '1', 10);
 
-		createTodo(data);
-		getTodos(searchTerm, page);
+		createTodo(data).then(() => getTodos(searchTerm, page));
+
 		setIsOpen(false);
 	};
 
