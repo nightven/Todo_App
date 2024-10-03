@@ -44,7 +44,6 @@ The frontend is built using React with Zustand for state management. React Hook 
 
 
 
-Translated with DeepL.com (free version)
 
 
 ```
