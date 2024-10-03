@@ -9,15 +9,15 @@ interface UseCustomThemeReturn {
 	isDesktop: boolean;
 }
 
-export const useCustomTheme = (): UseCustomThemeReturn => {
+export const useCustomMediaQuery = (): UseCustomThemeReturn => {
 	const theme = useTheme() as Theme;
 
 	const isMobile = useMediaQuery({
-		query: '(min-width: 320px) and (max-width: 425px)',
+		query: '(min-width: 320px) and (max-width: 480px)',
 	});
 
 	const isTablet = useMediaQuery({
-		query: '(min-width: 426px) and (max-width: 768px)',
+		query: '(min-width: 481px) and (max-width: 768px)',
 	});
 
 	const isDesktop = useMediaQuery({

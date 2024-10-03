@@ -44,7 +44,7 @@ const Button: React.FunctionComponent<IButtonProps> = ({
 			css={[btnStyles(Boolean(disabled), isLinkStyle), extraButtonStyles]}
 		>
 			{Boolean(loading) ? (
-				<Loader height="30px" width="30px" />
+				<Loader size="small" />
 			) : (
 				<span css={btnContentWrapper}>
 					{icon && (

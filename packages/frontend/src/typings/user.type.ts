@@ -14,6 +14,10 @@ export type ChangePassType = {
 	newPassword: string;
 };
 
+export type ChangeNameType = {
+	name: string;
+};
+
 export type ResetPassword = {
 	password: string;
 	confirmPassword: string;

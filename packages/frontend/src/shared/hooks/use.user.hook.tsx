@@ -3,6 +3,7 @@ import { STORAGE_KEYS } from '~shared/keys';
 import UserService from '~shared/services/users.service';
 import useUserStore from '~store/user.store';
 import {
+	ChangeNameType,
 	ChangePassType,
 	LoginUserType,
 	RegisterUserType,
@@ -15,7 +16,7 @@ interface UseUserHookReturn {
 	login: (credential: LoginUserType) => Promise<void>;
 	logOut: () => void;
 	getProfile: () => Promise<void>;
-	changeUsername: (username: string) => Promise<void>;
+	changeUsername: (credential: ChangeNameType) => Promise<void>;
 	changePassword: (credential: ChangePassType) => Promise<void>;
 	resetPassword: (credential: ResetPassword) => Promise<void>;
 	forgotPassword: (credential: ResetEmail) => Promise<void>;
@@ -46,8 +47,12 @@ export const useUserHook = (): UseUserHookReturn => {
 			setError(null);
 		} catch (error) {
 			setError(error.message);
+			if (error.response.status === 409) {
+				toast.error('User already exist');
+			} else {
+				toast.error('Failed to fetch user');
+			}
 			setLoading(false);
-			toast.error('Failed to fetch user');
 		}
 	};
 
@@ -96,11 +101,14 @@ export const useUserHook = (): UseUserHookReturn => {
 		}
 	};
 
-	const changeUsername = async (username: string): Promise<void> => {
+	const changeUsername = async (
+		credential: ChangeNameType,
+	): Promise<void> => {
 		setLoading(true);
+		const { name } = credential;
 		try {
-			await UserService.changeName(username);
-			setProfile({ ...profile, name: username });
+			await UserService.changeName(credential);
+			setProfile({ ...profile, name });
 			setLoading(false);
 			setError(null);
 			toast.success('Your name has been changed successfully!');
@@ -124,6 +132,7 @@ export const useUserHook = (): UseUserHookReturn => {
 		} catch (error) {
 			setError(error.message);
 			setLoading(false);
+			toast.error('Failed to change password, invalid credential');
 		}
 	};
 
@@ -137,7 +146,9 @@ export const useUserHook = (): UseUserHookReturn => {
 		} catch (error) {
 			setError(error.message);
 			setLoading(false);
-			toast.error('Failed to set password');
+			toast.error(
+				`Failed to reset password. ${error.response.status === 401 ? 'You are not authorized' : ''}`,
+			);
 		}
 	};
 

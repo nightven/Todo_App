@@ -10,7 +10,7 @@ import PublicRoute from './public.route';
 const AppRouter: React.FunctionComponent = () => {
 	return (
 		<Router>
-			<Suspense fallback={<Loader height="64px" width="64px" />}>
+			<Suspense fallback={<Loader size="large" />}>
 				<Routes>
 					{publicRoutes.map((route, index) => (
 						<Route

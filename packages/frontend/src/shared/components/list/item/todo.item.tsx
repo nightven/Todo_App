@@ -91,7 +91,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ id: propId, tablet }) => {
 							<b>Completed</b>
 						</span>
 						{loading ? (
-							<Loader height="30px" width="30px" />
+							<Loader size="small" />
 						) : (
 							<TodosToggle
 								checked={toggleIsCompleted}
@@ -105,7 +105,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ id: propId, tablet }) => {
 									<b>Private</b>
 								</span>
 								{loading ? (
-									<Loader height="30px" width="30px" />
+									<Loader size="small" />
 								) : (
 									<TodosToggle
 										checked={toggleIsPrivate}

@@ -56,12 +56,16 @@ export const changePasswordSchema = z.object({
 		.string()
 		.regex(
 			passwordRegEx,
-			'Password must be at least 8 characters and include at least one uppercase letter, one lowercase letter, one number, and one special character',
+			'Old Password must be at least 8 characters and include at least one uppercase letter, one lowercase letter, one number, and one special character',
 		),
 	newPassword: z
 		.string()
 		.regex(
 			passwordRegEx,
-			'Password must be at least 8 characters and include at least one uppercase letter, one lowercase letter, one number, and one special character',
+			'New Password must be at least 8 characters and include at least one uppercase letter, one lowercase letter, one number, and one special character',
 		),
+});
+
+export const changeNameSchema = z.object({
+	name: z.string().min(3, 'Name must be at least 3 characters').max(64),
 });
