@@ -6,7 +6,6 @@ import Button from '~shared/components/button/button.component';
 import Modal from '~shared/components/modal/todos.create.modal';
 import { SubmitHandler } from 'react-hook-form';
 import { FilterType } from '~typings/filter.type';
-import { useCustomTheme } from '~shared/hooks/use.custom.theme';
 import Loader from '~shared/components/loader/loader.component';
 import { container } from '~shared/styles';
 import { Icon } from '@blueprintjs/core';
@@ -26,6 +25,7 @@ import { CreateTodoFormData } from '~typings/forms.type';
 import { filterTodos } from '~/utils/filter.show.todos';
 import Pagination from '~shared/components/pagination/pagination';
 import { useQueryParams } from '~shared/hooks/use.query.params';
+import { useCustomMediaQuery } from '~shared/hooks/use.custom.mediaquery';
 
 const HomePageContainer: React.FC = () => {
 	const { todos, loading, totalPages } = useTodosStore();
@@ -35,7 +35,7 @@ const HomePageContainer: React.FC = () => {
 	const [activeFilter, setActiveFilter] = useState<FilterType>('All');
 	const { searchParams, updateQueryParams } = useQueryParams();
 	const [searchTerm, setSearchTerm] = useState('');
-	const { isTablet, isMobile, isDesktop } = useCustomTheme();
+	const { isTablet, isMobile, isDesktop } = useCustomMediaQuery();
 
 	const debouncedSearch = useCallback(
 		debounce((term: string) => {

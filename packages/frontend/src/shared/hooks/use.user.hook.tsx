@@ -3,6 +3,7 @@ import { STORAGE_KEYS } from '~shared/keys';
 import UserService from '~shared/services/users.service';
 import useUserStore from '~store/user.store';
 import {
+	ChangeNameType,
 	ChangePassType,
 	LoginUserType,
 	RegisterUserType,
@@ -15,7 +16,7 @@ interface UseUserHookReturn {
 	login: (credential: LoginUserType) => Promise<void>;
 	logOut: () => void;
 	getProfile: () => Promise<void>;
-	changeUsername: (username: string) => Promise<void>;
+	changeUsername: (credential: ChangeNameType) => Promise<void>;
 	changePassword: (credential: ChangePassType) => Promise<void>;
 	resetPassword: (credential: ResetPassword) => Promise<void>;
 	forgotPassword: (credential: ResetEmail) => Promise<void>;
@@ -96,11 +97,14 @@ export const useUserHook = (): UseUserHookReturn => {
 		}
 	};
 
-	const changeUsername = async (username: string): Promise<void> => {
+	const changeUsername = async (
+		credential: ChangeNameType,
+	): Promise<void> => {
 		setLoading(true);
+		const { name } = credential;
 		try {
-			await UserService.changeName(username);
-			setProfile({ ...profile, name: username });
+			await UserService.changeName(credential);
+			setProfile({ ...profile, name });
 			setLoading(false);
 			setError(null);
 			toast.success('Your name has been changed successfully!');

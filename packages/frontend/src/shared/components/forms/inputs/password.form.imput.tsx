@@ -3,11 +3,7 @@ import React, { useState } from 'react';
 import { FormGroup, Button } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { PassFormInput } from '~typings/forms.type';
-import {
-	authButtonStyle,
-	authImputWrapper,
-	authInputStyle,
-} from './inpust.style';
+import { inputButtonStyle, inputStyle, inputWrapper } from './inpust.style';
 
 const PasswordInput: React.FC<PassFormInput> = ({
 	label,
@@ -32,7 +28,7 @@ const PasswordInput: React.FC<PassFormInput> = ({
 			labelFor={labelFor}
 			helperText={errors[name]?.message || ''}
 		>
-			<div css={authImputWrapper}>
+			<div css={inputWrapper}>
 				<input
 					id={labelFor}
 					{...register(name)}
@@ -40,7 +36,7 @@ const PasswordInput: React.FC<PassFormInput> = ({
 					type={
 						isPasswordField && !showPassword ? 'password' : 'text'
 					}
-					css={authInputStyle(intent)}
+					css={inputStyle(intent)}
 				/>
 				{isPasswordField && (
 					<Button
@@ -51,7 +47,7 @@ const PasswordInput: React.FC<PassFormInput> = ({
 						}
 						minimal
 						onClick={togglePasswordVisibility}
-						css={authButtonStyle}
+						css={inputButtonStyle}
 					/>
 				)}
 			</div>

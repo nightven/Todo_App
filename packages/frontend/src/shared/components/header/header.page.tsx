@@ -2,7 +2,7 @@
 import React from 'react';
 import { container } from '~shared/styles';
 import Logo from '../../../../public/images/logo.png';
-import { useCustomTheme } from '~shared/hooks/use.custom.theme';
+import { useCustomMediaQuery } from '~shared/hooks/use.custom.mediaquery';
 import { headerWrapper } from './header.style';
 import Button from '~shared/components/button/button.component';
 import { IconNames } from '@blueprintjs/icons';
@@ -12,7 +12,7 @@ import { ROUTER_KEYS } from '~shared/keys';
 import { useUserHook } from '~shared/hooks/use.user.hook';
 
 const Header: React.FunctionComponent = () => {
-	const { isMobile, isTablet } = useCustomTheme();
+	const { isMobile, isTablet } = useCustomMediaQuery();
 	const { logOut } = useUserHook();
 	const navigate = useNavigate();
 

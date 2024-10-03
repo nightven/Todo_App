@@ -7,10 +7,10 @@ export const todosInputStyle = (intent: string): SerializedStyles => css`
 	width: 100%;
 `;
 
-export const authImputWrapper = css`
+export const inputWrapper = css`
 	position: relative;
 `;
-export const authInputStyle = (intent: string): SerializedStyles => css`
+export const inputStyle = (intent: string): SerializedStyles => css`
 	border: 1px solid ${intent === 'danger' ? 'red' : 'initial'};
 	border-radius: 4px;
 	padding: 8px;
@@ -18,7 +18,7 @@ export const authInputStyle = (intent: string): SerializedStyles => css`
 	outline: ${intent === 'danger' ? '1px solid red' : 'none'};
 `;
 
-export const authButtonStyle = css`
+export const inputButtonStyle = css`
 	position: absolute;
 	top: 0;
 	right: 8px;

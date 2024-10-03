@@ -7,7 +7,7 @@ import {
 	modalDialogStyles,
 	modalOverlay,
 } from './todos.create.modal.style';
-import { useCustomTheme } from '~shared/hooks/use.custom.theme';
+import { useCustomMediaQuery } from '~shared/hooks/use.custom.mediaquery';
 
 type ModalProps = {
 	isOpen: boolean;
@@ -16,7 +16,7 @@ type ModalProps = {
 };
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-	const { isMobile } = useCustomTheme();
+	const { isMobile } = useCustomMediaQuery();
 	return (
 		<Portal>
 			<Dialog

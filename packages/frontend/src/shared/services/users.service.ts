@@ -1,4 +1,5 @@
 import {
+	ChangeNameType,
 	ChangePassType,
 	LoginUserType,
 	RegisterUserType,
@@ -50,7 +51,7 @@ class UserService extends HttpService {
 		return res.data;
 	}
 
-	async changeName(data: string): Promise<UserType> {
+	async changeName(data: ChangeNameType): Promise<UserType> {
 		const res = await this.patch<UserType>({
 			url: 'user/change-name',
 			data,

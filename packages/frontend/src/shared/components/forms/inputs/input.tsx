@@ -1,20 +1,39 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
-import { FormGroup, Button } from '@blueprintjs/core';
+import { UseFormRegister, FieldErrors, Path } from 'react-hook-form';
+import { FormGroup, Button, Intent } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
-import { InputProps } from '~typings/forms.type';
 import { inputButtonStyle, inputStyle, inputWrapper } from './inpust.style';
 
-const AuthInput: React.FC<InputProps> = ({
+type InputType<T> = {
+	label: string;
+	labelFor: string;
+	placeholder: string;
+	errors: FieldErrors<T>;
+	register: UseFormRegister<T>;
+	name:
+		| 'name'
+		| 'email'
+		| 'password'
+		| 'confirmPassword'
+		| 'oldPassword'
+		| 'newPassword';
+	type?: 'text' | 'password';
+	required?: boolean;
+	intent?: Intent;
+};
+
+const Input = <T,>({
 	label,
 	labelFor,
 	placeholder,
+	errors,
 	register,
 	name,
-	type = 'text',
-	errors,
-	intent = 'none',
-}) => {
+	type,
+	required,
+	intent,
+}: InputType<T>): JSX.Element => {
 	const [showPassword, setShowPassword] = useState(false);
 	const isPasswordField = type === 'password';
 
@@ -26,16 +45,19 @@ const AuthInput: React.FC<InputProps> = ({
 		<FormGroup
 			label={label}
 			labelFor={labelFor}
-			helperText={errors[name]?.message || ''}
+			helperText={
+				errors[name]?.message ? String(errors[name]?.message) : ''
+			}
 		>
 			<div css={inputWrapper}>
 				<input
 					id={labelFor}
-					{...register(name)}
+					{...register(name as unknown as Path<T>)}
 					placeholder={placeholder}
 					type={
 						isPasswordField && !showPassword ? 'password' : 'text'
 					}
+					required={required}
 					css={inputStyle(intent)}
 				/>
 				{isPasswordField && (
@@ -55,4 +77,4 @@ const AuthInput: React.FC<InputProps> = ({
 	);
 };
 
-export default AuthInput;
+export default Input;
