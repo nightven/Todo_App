@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useTodosStore } from '~store/todos.store';
 import TodosList from '~shared/components/list/todos.list';
 import Button from '~shared/components/button/button.component';
@@ -28,14 +28,15 @@ import { useQueryParams } from '~shared/hooks/use.query.params';
 import { useCustomMediaQuery } from '~shared/hooks/use.custom.mediaquery';
 
 const HomePageContainer: React.FC = () => {
-	const { todos, loading, totalPages } = useTodosStore();
-	const { createTodo, getTodos } = useTodosHook();
+	const { todos, loading, totalPages, hasMore } = useTodosStore();
+	const { createTodo, getTodos, loadMore } = useTodosHook();
 	const { getProfile } = useUserHook();
 	const [isOpen, setIsOpen] = useState(false);
 	const [activeFilter, setActiveFilter] = useState<FilterType>('All');
 	const { searchParams, updateQueryParams } = useQueryParams();
 	const [searchTerm, setSearchTerm] = useState('');
 	const { isTablet, isMobile, isDesktop } = useCustomMediaQuery();
+	const observer = useRef<IntersectionObserver | null>(null);
 
 	const debouncedSearch = useCallback(
 		debounce((term: string) => {
@@ -89,6 +90,31 @@ const HomePageContainer: React.FC = () => {
 		updateQueryParams({ page });
 	};
 
+	const lastTodoElementRef = useCallback(
+		(node) => {
+			if (loading) return;
+			if (observer.current) observer.current.disconnect();
+
+			observer.current = new IntersectionObserver((entries) => {
+				if (entries[0].isIntersecting && hasMore) {
+					const nextPage =
+						parseInt(searchParams.get('page') || '1', 10) + 1;
+					updateQueryParams({ page: nextPage });
+					loadMore(searchTerm, nextPage);
+				}
+			});
+
+			if (node) observer.current.observe(node);
+		},
+		[
+			loading,
+			hasMore,
+			searchTerm,
+			loadMore,
+			searchParams,
+			updateQueryParams,
+		],
+	);
 	return (
 		<div css={[homePageWrapper(isMobile, isTablet), container]}>
 			<div className="homeButtonWrapper">
@@ -142,7 +168,10 @@ const HomePageContainer: React.FC = () => {
 			{loading ? (
 				<Loader size="large" />
 			) : (
-				<TodosList todos={filterTodos(todos, activeFilter)} />
+				<TodosList
+					todos={filterTodos(todos, activeFilter)}
+					lastTodoElementRef={lastTodoElementRef}
+				/>
 			)}
 
 			{isTablet ||

@@ -7,7 +7,8 @@ interface UseTodosHookReturn {
 	updateTodo: (updatedToDo: TodoType, id: number) => Promise<void>;
 	createTodo: (todo: TodoType) => Promise<void>;
 	getViewTodo: (id: string) => Promise<void>;
-	getTodos: (searchQuery: string, page: number) => Promise<void>;
+	getTodos: (title: string, page: number) => Promise<void>;
+	loadMore: (title: string, page: number) => Promise<void>;
 	deleteTodo: (id: number) => Promise<void>;
 }
 export const useTodosHook = (): UseTodosHookReturn => {
@@ -34,6 +35,25 @@ export const useTodosHook = (): UseTodosHookReturn => {
 			setPagination(pagination);
 			setTotalPages(totalPages);
 			setHasMore(pagination.next ? true : false);
+			setError(null);
+			setLoading(false);
+		} catch (error) {
+			setError(error.message);
+			setLoading(false);
+			toast.error('Failed to fetch todos');
+		}
+	};
+
+	const loadMore = async (title: string, page: number): Promise<void> => {
+		setLoading(true);
+
+		try {
+			const { data, pagination, totalPages } =
+				await todosService.getTodos(title, page);
+			setTodos([...todos, ...data]);
+			setPagination(pagination);
+			setTotalPages(totalPages);
+			setHasMore(!!pagination.next);
 			setError(null);
 			setLoading(false);
 		} catch (error) {
@@ -112,5 +132,12 @@ export const useTodosHook = (): UseTodosHookReturn => {
 			toast.error('failed to delete todo');
 		}
 	};
-	return { getTodos, getViewTodo, updateTodo, createTodo, deleteTodo };
+	return {
+		getTodos,
+		getViewTodo,
+		updateTodo,
+		createTodo,
+		deleteTodo,
+		loadMore,
+	};
 };
