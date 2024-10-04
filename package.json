@@ -13,6 +13,9 @@
     "lint:fix": "npx eslint packages/backend packages/frontend --fix",
     "prepare": "husky"
   },
+  "engines": {
+    "node": "20.11.0"
+  },
   "keywords": [],
   "author": "Vitalii Beiar",
   "license": "ISC",
