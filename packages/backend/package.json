@@ -3,7 +3,6 @@
 	"version": "1.0.0",
 	"scripts": {
 		"start": "node dist/app.js",
-		"preserve": "npm run build",
 		"serve": "concurrently \"tsc -w\" \"tsc-alias -w\" \"nodemon dist/app.js\" ",
 		"lint": "npx eslint ./src",
 		"lint:fix": "npx eslint ./src --fix",
