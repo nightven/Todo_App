@@ -2,7 +2,6 @@
 	"name": "cgs-backend",
 	"version": "1.0.0",
 	"scripts": {
-		"prestart": "npm run build",
 		"start": "node dist/app.js",
 		"preserve": "npm run build",
 		"serve": "concurrently \"tsc -w\" \"tsc-alias -w\" \"nodemon dist/app.js\" ",
