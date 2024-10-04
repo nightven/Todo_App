@@ -9,6 +9,7 @@ export type TodoType = {
 
 export type TodoListProps = {
 	todos: TodoType[];
+	lastTodoElementRef?: (node: HTMLElement | null) => void;
 };
 
 export type TodoResType = {
