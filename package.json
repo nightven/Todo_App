@@ -10,8 +10,7 @@
     "start": "cd packages/backend && yarn start",
     "heroku-postbuild": "cd packages/frontend && yarn build",
     "lint": "npx eslint packages/backend packages/frontend",
-    "lint:fix": "npx eslint packages/backend packages/frontend --fix",
-    "prepare": "husky"
+    "lint:fix": "npx eslint packages/backend packages/frontend --fix"
   },
   "engines": {
     "node": "20.11.0"
